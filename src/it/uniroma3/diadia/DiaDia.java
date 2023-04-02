@@ -2,9 +2,12 @@ package it.uniroma3.diadia;
 
 
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Scanner;
 
 import it.uniroma3.diadia.ambienti.Stanza;
+import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 /**
  * Classe principale di diadia, un semplice gioco di ruolo ambientato al dia.
@@ -29,8 +32,8 @@ public class DiaDia {
 			"puoi raccoglierli, usarli, posarli quando ti sembrano inutili\n" +
 			"o regalarli se pensi che possano ingraziarti qualcuno.\n\n"+
 			"Per conoscere le istruzioni usa il comando 'aiuto'.";
-	
-	static final private String[] elencoComandi = {"vai", "aiuto", "fine"};
+
+	static final private String[] elencoComandi = {"vai", "aiuto", "fine", "prendi <nome_oggetto>", "posa <nome_oggetto>"};
 
 	private Partita partita;
 
@@ -67,9 +70,11 @@ public class DiaDia {
 				return true;
 			} else if (nome_comando.equals("vai"))
 				this.vai(comandoDaEseguire.getParametro());
-			  else if (nome_comando.equals("aiuto"))
+			else if (nome_comando.equals("aiuto"))
 				this.aiuto();
-			  else
+			else if (nome_comando.equals("prendi"))
+				this.prendi(comandoDaEseguire.getParametro());
+			else
 				System.out.println("Comando sconosciuto");
 		}
 		if (this.partita.vinta()) {
@@ -107,6 +112,43 @@ public class DiaDia {
 			this.partita.setCfu(cfu--);
 		}
 		System.out.println(partita.getStanzaCorrente().getDescrizione());
+	}
+	/**
+	 * Cerca di prendere un oggetto. Se c'e' un oggetto lo inserisce in borsa
+	 * e ne stampa l'evento altrimenti mostra una lista dei suddetti,
+	 *  altrimenti se non riesce a prendere l'oggetto citato ne stampa l'errore
+	 */
+	private void prendi(String nomeAttrezzo) {
+		if(nomeAttrezzo==null) {
+			System.out.println("quale oggetto vuoi prendere?");
+			Attrezzo[] attrezzi = this.partita.getStanzaCorrente().getAttrezzi();
+            if(attrezzi.length == 0  ) {
+    			System.out.println("non vi sono oggetti");
+                return;
+            }
+			int numeroAttrezzi = this.partita.getStanzaCorrente().getNumeroAttrezzi();
+			for(int i = 0; i<numeroAttrezzi; i++) {
+				System.out.println(attrezzi[i].toString());
+			}
+			return;
+		}else {
+			if(this.partita.getStanzaCorrente().hasAttrezzo(nomeAttrezzo)) {
+				Attrezzo prendi =this.partita.getStanzaCorrente().getAttrezzo(nomeAttrezzo);
+					if(this.partita.addAttrezzo(prendi)) {
+						if(this.partita.getStanzaCorrente().removeAttrezzo(nomeAttrezzo)) {
+							System.out.println("hai preso l'oggetto "+prendi.toString());
+							return;
+						}else {
+							this.partita.getStanzaCorrente().addAttrezzo(this.partita.removeAttrezzo(nomeAttrezzo));
+							System.out.println("errore l'oggetto non è stato preso");
+							}
+					}else
+						System.out.println("errore impossibile prendere attrezzo");
+			}else
+    			System.out.println("non esiste questo attrezzo "+nomeAttrezzo);
+
+		}
+
 	}
 
 	/**
