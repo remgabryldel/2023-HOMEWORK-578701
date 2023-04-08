@@ -3,6 +3,7 @@ package it.uniroma3.diadia;
 import it.uniroma3.diadia.ambienti.Labirinto;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
+import it.uniroma3.diadia.giocatore.Borsa;
 import it.uniroma3.diadia.giocatore.Giocatore;
 
 /**
@@ -65,19 +66,15 @@ public class Partita {
 		return this.labirinto;
 	}
 	
-	public boolean addAttrezzo(Attrezzo attrezzo) {
-		return this.giocatore.addAttrezzo(attrezzo);
-	}
-	
-	public Attrezzo removeAttrezzo(String Attrezzo) {
-		return this.giocatore.removeAttrezzo(Attrezzo);
-	}
-	
 	public int getCfu() {
 		return this.giocatore.getCfu();
 	}
 
 	public void setCfu(int cfu) {
 		this.giocatore.setCfu(cfu);		
+	}
+
+	public Giocatore getGiocatore() {
+		return this.giocatore;
 	}	
 }

@@ -111,8 +111,7 @@ public class Stanza {
 	 * @return true se riesce ad aggiungere l'attrezzo, false atrimenti.
 	 */
 	public boolean addAttrezzo(Attrezzo attrezzo) {//fai test
-		
-		if (this.numeroAttrezzi < NUMERO_MASSIMO_ATTREZZI && attrezzo!= null ) {
+		if ((this.numeroAttrezzi < NUMERO_MASSIMO_ATTREZZI) && (attrezzo!= null)) {
 			this.attrezzi[numeroAttrezzi] = attrezzo;
 			this.numeroAttrezzi++;
 			return true;
@@ -135,11 +134,11 @@ public class Stanza {
 			if (direzione!=null)
 				risultato.append(" " + direzione);
 		risultato.append("\nAttrezzi nella stanza: ");
-		Attrezzo attrezzo = this.attrezzi[0];
+		Attrezzo attrezzo;
 		for (int i = 0; i<this.numeroAttrezzi;i++) {
+			attrezzo = this.attrezzi[i];
 			if(attrezzo!=null)
 				risultato.append(attrezzo.toString()+" ");
-			attrezzo = this.attrezzi[i];
 		}
 		return risultato.toString();
 	}
