@@ -40,8 +40,6 @@ public class Giocatore {
 	 */
 	public Attrezzo removeAttrezzo(String Attrezzo) {
 		Attrezzo att = this.borsa.removeAttrezzo(Attrezzo);
-		System.out.println(att==null);
-		System.out.println(att);
 		return att;
 	}
 	
