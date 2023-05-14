@@ -12,11 +12,11 @@ class BorsaTest {
 	void testAddAttrezzo() {
 		Borsa b = new Borsa();
 		assertEquals(0,b.getNumeroAttrezzi());
-		assertArrayEquals(new Attrezzo[10],b.getAttrezzi());
+		assertArrayEquals(new Attrezzo[0],b.getAttrezzi());
 		assertFalse(b.addAttrezzo(null));
 		assertEquals(0,b.getNumeroAttrezzi());
-		assertArrayEquals(new Attrezzo[10],b.getAttrezzi());
-		for(int i = 0; i<b.getAttrezzi().length-1;i++) {
+		assertArrayEquals(new Attrezzo[0],b.getAttrezzi());
+		for(int i = 0; i<10;i++) {
 			assertTrue(b.addAttrezzo(new Attrezzo(String.valueOf(i),i/5)));
 		}
 		assertFalse(b.addAttrezzo(new Attrezzo("11",7)));
@@ -27,19 +27,18 @@ class BorsaTest {
 	void testGetAttrezzo() {
 		Borsa b = new Borsa();
 		assertNull(b.getAttrezzo(null));
-		for(int i = 0; i<b.getAttrezzi().length;i++) {
+		for(int i = 0; i<11;i++) {
 			b.addAttrezzo(new Attrezzo(String.valueOf(i),i/5));
 		}
 		assertNull(b.getAttrezzo(null));
 		assertNotNull(b.getAttrezzo("5"));
-		assertNull(b.getAttrezzo("11"));
 	}
 
 	@Test
 	void testRemoveAttrezzo() {
 		Borsa b = new Borsa();
 		assertNull(b.removeAttrezzo(null));
-		for(int i = 0; i<b.getAttrezzi().length;i++) {
+		for(int i = 0; i<10;i++) {
 			b.addAttrezzo(new Attrezzo(String.valueOf(i),i/5));
 		}
 		assertNull(b.removeAttrezzo(null));

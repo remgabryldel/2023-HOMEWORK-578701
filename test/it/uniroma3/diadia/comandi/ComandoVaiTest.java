@@ -5,11 +5,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.Partita;
+import it.uniroma3.diadia.ambienti.Labirinto;
 import it.uniroma3.diadia.ambienti.Stanza;
 
 class ComandoVaiTest {
 	private Partita partitaVuota = null;
-	private Partita partitaInizializzata = new Partita();
+	private Labirinto labirinto = new Labirinto();
+	private Partita partitaInizializzata = new Partita(this.labirinto);
 	
 	
 	@Test
