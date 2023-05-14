@@ -57,4 +57,14 @@ public class StanzaMagica extends Stanza {
 		attrezzo = new Attrezzo(nomeInvertito.toString(),pesoX2);
 		return attrezzo;
 	}
+	
+	/**
+	 * Ritorna true se la stanza è normale altrimenti viene sovrascritto il metodo da StanzaMagica
+	 * @return booleano
+	 * @see Stanza
+	 */
+	@Override
+	public boolean isMagica() {
+		return true;
+	}
 }

@@ -18,9 +18,9 @@ public class Partita {
     private Giocatore giocatore;
 	private boolean finita;
 	
-	public Partita(){
+	public Partita(Labirinto labirinto){
 		this.finita = false;
-		this.labirinto = new Labirinto();
+		this.labirinto = labirinto;
 		this.giocatore = new Giocatore();
 	}
 	
@@ -62,6 +62,10 @@ public class Partita {
 	
 	public Labirinto getLabirinto() {
 		return this.labirinto;
+	}
+	
+	public void setLabirinto(Labirinto labirinto) {
+		this.labirinto = labirinto;
 	}
 	
 	public int getCfu() {

@@ -5,7 +5,8 @@ import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.IOConsole.IOConsole;
 
 public class ComandoGuarda implements Comando {
-
+//TODO ricordati di inserire dei comandi per mostrare in output 
+// le strutture ordinate dalle varie collezioni di attrezzi
 	private IO InOut = new IOConsole();
 	
 	@Override

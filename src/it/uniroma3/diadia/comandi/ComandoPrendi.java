@@ -27,10 +27,9 @@ public class ComandoPrendi implements Comando {
             }
 			InOut.mostraMessaggio("quale attrezzo vuoi prendere?");
 			StringBuilder risultato = new StringBuilder();
-			for (int i = 0; i<numeroAttrezzi ;i++) {
-				Attrezzo attrezzo = stanzaCorrente.getAttrezzi()[i];
-				if(attrezzo!=null)
-					risultato.append(attrezzo.toString()+" ");
+			for (Attrezzo a: stanzaCorrente.getAttrezzi()) {
+				if(a!=null)
+					risultato.append(a.toString()+" ");
 			}
 			InOut.mostraMessaggio(risultato.toString());
 			return;
