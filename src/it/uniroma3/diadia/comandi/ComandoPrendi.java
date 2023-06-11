@@ -2,14 +2,13 @@ package it.uniroma3.diadia.comandi;
 
 import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
-import it.uniroma3.diadia.IOConsole.IOConsole;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.giocatore.Giocatore;
 
-public class ComandoPrendi implements Comando {
- private String nomeAttrezzo;
- private IO InOut = new IOConsole();
+public class ComandoPrendi extends AbstractComando {
+    private String nomeAttrezzo;
+	static final private String NOME = "ComandoPrendi";
  
      /**
 	 * Cerca di prendere un oggetto. Se c'e' un oggetto lo inserisce in borsa
@@ -17,21 +16,22 @@ public class ComandoPrendi implements Comando {
 	 *  altrimenti se non riesce a prendere l'oggetto citato ne stampa l'errore
 	 */
 	@Override
-	public void esegui(Partita partita) {
+	public void esegui(Partita partita, IO io) {
+		super.setIo(io);
 		Stanza stanzaCorrente = partita.getStanzaCorrente();
 		if(nomeAttrezzo==null) {
 			int numeroAttrezzi = stanzaCorrente.getNumeroAttrezzi();
 			if(numeroAttrezzi == 0  ) {
-    			InOut.mostraMessaggio("non vi sono attrezzi");
+				super.getIo().mostraMessaggio("non vi sono attrezzi");
                 return;
             }
-			InOut.mostraMessaggio("quale attrezzo vuoi prendere?");
+			super.getIo().mostraMessaggio("quale attrezzo vuoi prendere?");
 			StringBuilder risultato = new StringBuilder();
 			for (Attrezzo a: stanzaCorrente.getAttrezzi()) {
 				if(a!=null)
 					risultato.append(a.toString()+" ");
 			}
-			InOut.mostraMessaggio(risultato.toString());
+			super.getIo().mostraMessaggio(risultato.toString());
 			return;
 		}else {
 			if(stanzaCorrente.hasAttrezzo(nomeAttrezzo)) {
@@ -39,16 +39,16 @@ public class ComandoPrendi implements Comando {
 					Giocatore giocatore = partita.getGiocatore();
 					if(giocatore.addAttrezzo(prendi)) {
 						if(stanzaCorrente.removeAttrezzo(nomeAttrezzo)) {
-							InOut.mostraMessaggio("hai preso l'oggetto "+prendi.toString());
+							super.getIo().mostraMessaggio("hai preso l'oggetto "+prendi.toString());
 							return;
 						}else {
 							stanzaCorrente.addAttrezzo(giocatore.removeAttrezzo(nomeAttrezzo));
-							InOut.mostraMessaggio("errore l'oggetto non è stato preso");
+							super.getIo().mostraMessaggio("errore l'oggetto non è stato preso");
 					    }
 					}else
-						InOut.mostraMessaggio("errore impossibile prendere attrezzo");
+						super.getIo().mostraMessaggio("errore impossibile prendere attrezzo");
 			}else
-				InOut.mostraMessaggio("non esiste questo attrezzo "+nomeAttrezzo);
+				super.getIo().mostraMessaggio("non esiste questo attrezzo "+nomeAttrezzo);
 		}
 	}
 
@@ -59,8 +59,7 @@ public class ComandoPrendi implements Comando {
 
 	@Override
 	public String getNome() {
-		// TODO Auto-generated method stub
-		return null;
+		return NOME;
 	}
 
 	@Override

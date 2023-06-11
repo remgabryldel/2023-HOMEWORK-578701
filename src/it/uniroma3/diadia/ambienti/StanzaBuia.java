@@ -21,6 +21,10 @@ public class StanzaBuia extends Stanza {
 		this.nomeAttrezzo=nomeAttrezzo;
 	}
 	
+	public String getNomeAttrezzoSbloccante() {
+		return this.nomeAttrezzo;
+	}
+	
 	public StanzaBuia(String nome) {
 		this(nome,NOME_ATTREZZO);
 	}
@@ -37,5 +41,13 @@ public class StanzaBuia extends Stanza {
 			return super.getDescrizione();
 		else
 		    return "qui c'è buio pesto";
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		StanzaBuia that = (StanzaBuia) o;
+		boolean eq = this.getNomeAttrezzoSbloccante().equals(that.getNomeAttrezzoSbloccante());
+		eq = eq && super.equals(o);
+		return eq;
 	}
 }

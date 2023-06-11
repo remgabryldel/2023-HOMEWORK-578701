@@ -16,7 +16,6 @@ public class LabirintoBuilder {
 	private Stanza ultimaInserita;
 	
 	public LabirintoBuilder() {
-		this.labirinto = new Labirinto();
 		this.string2stanza = new HashMap<>();
 	}
 	
@@ -30,18 +29,19 @@ public class LabirintoBuilder {
 	}
 	
 	/**
-	 * Imposta la stanza iniziale del labirinto.
+	 * Imposta la stanza iniziale del labirinto l'ultima inserita, altrimenti ne crea una.
 	 * @param nomeStanza
 	 *
 	 */
 	public LabirintoBuilder addStanzaIniziale(String nomeStanza){
 		if(nomeStanza==null)
 			return this;
-		if(!this.string2stanza.containsKey(nomeStanza))
+		if(!this.string2stanza.containsKey(nomeStanza)) {
 		      this.ultimaInserita = new Stanza(nomeStanza);
-		this.labirinto.setStanzaIniziale(this.ultimaInserita);
+			  this.string2stanza.put(nomeStanza,this.ultimaInserita);
+		}
+		//this.labirinto.setStanzaIniziale(this.ultimaInserita);
 		this.labirinto.setStanzaCorrente(this.ultimaInserita);
-		this.string2stanza.put(nomeStanza,this.ultimaInserita);
 		return this ;
 	}
 	
@@ -83,7 +83,7 @@ public class LabirintoBuilder {
 	 *
 	 */
 	
-	public LabirintoBuilder addStanzaBloccata(String nomeStanza,String direzioneBloccata, String nomeAttrezzoSbloccante) {
+	public LabirintoBuilder addStanzaBloccata(String nomeStanza,Direzione direzioneBloccata, String nomeAttrezzoSbloccante) {
 		if(nomeStanza==null)
 			return this;
 		this.ultimaInserita = new StanzaBloccata(nomeStanza,direzioneBloccata,nomeAttrezzoSbloccante);
@@ -134,41 +134,20 @@ public class LabirintoBuilder {
 	}
 	
 	/**
-	 * Imposta l'adiacenza tra due stanze.
+	 * Imposta l'adiacenza tra due stanze gia esistenti se .
 	 * @param nome1
 	 * @param nome2
 	 * @param direzione
 	 * 
 	 */
 
-	public LabirintoBuilder addAdiacenza(String nome1, String nome2, String direzione) {
-		if(this.string2stanza.containsKey(nome1)&&this.string2stanza.containsKey(nome2)) {
-			String direzioneOpposta = this.direzioneOpposta(direzione);
-			if(direzione!=null) {
+	public LabirintoBuilder addAdiacenza(String nome1, String nome2, Direzione direzione) {
+		if(this.string2stanza.containsKey(nome1)&&this.string2stanza.containsKey(nome2))
+			if(direzione!=null) 
 			   this.string2stanza.get(nome1).impostaStanzaAdiacente(direzione, this.string2stanza.get(nome2));
-			   this.string2stanza.get(nome2).impostaStanzaAdiacente(direzioneOpposta, this.string2stanza.get(nome1));
-			   }
-		}
 		return this;
 	}
 	
-	/**
-	 * Ritorna la direzione opposta rispetto alla direzione inviata.
-	 * @param direzione
-	 * @return
-	 */
-	
-	public String direzioneOpposta (String direzione) {
-		if (direzione.equals("nord"))
-			return "sud";
-		if (direzione.equals("sud"))
-			return "nord";
-		if (direzione.equals("est"))
-			return "ovest";
-		if (direzione.equals("ovest"))
-			return "est";
-		return null;
-	}
 
 	/**
 	 * Lista delle Stanza con chiave il loro nome.

@@ -1,6 +1,9 @@
 package it.uniroma3.diadia;
 
+import java.io.FileNotFoundException;
+
 import it.uniroma3.diadia.IOConsole.IOConsole;
+import it.uniroma3.diadia.ambienti.Direzione;
 import it.uniroma3.diadia.ambienti.Labirinto;
 import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.comandi.Comando;
@@ -56,7 +59,7 @@ public class DiaDia {
 		Comando comandoDaEseguire;
 		FabbricaDiComandi factory = new FabbricaDiComandiFisarmonica();
 				comandoDaEseguire = factory.costruisciComando(istruzione);
-		comandoDaEseguire.esegui(this.partita); 
+		comandoDaEseguire.esegui(this.partita,this.InOut); 
 		if (this.partita.vinta())
 			InOut.mostraMessaggio("Hai vinto!");
 		if (!this.partita.giocatoreIsVivo())
@@ -64,10 +67,11 @@ public class DiaDia {
 		return this.partita.isFinita();
 	}   
 
-	public static void main(String[] argc) {
+	public static void main(String[] argc) throws FileNotFoundException, FormatoFileNonValidoException {
 		IO io = new IOConsole();
-		Labirinto labirinto = new LabirintoBuilder()
-				 .addStanzaBloccata("Atrio","nord","Chiave")
+		Labirinto labirinto =  Labirinto.newBuilder("labirinto5.txt").getLabirinto();
+				new LabirintoBuilder()
+				 .addStanzaBloccata("Atrio",Direzione.nord,"chiave")
 				 .addAttrezzo("osso", 4)
 				 .addStanzaIniziale("Atrio")
 				 .addStanza("Aula N11")
@@ -76,15 +80,27 @@ public class DiaDia {
 				 .addStanza("Laboratorio Campus")
 				 .addStanzaVincente("biblioteca")
 				 .addStanzaBuia("Ripostiglio","lanterna")
-				 .addAttrezzo("Chiave", 1)
-				 .addAdiacenza("Atrio", "Biblioteca", "nord")
-				 .addAdiacenza("Atrio", "Aula N10", "sud")
-				 .addAdiacenza("Atrio", "Aula N11", "est")
-				 .addAdiacenza("Atrio", "Laboratorio Campus", "ovest")
-				 .addAdiacenza("Aula N11", "Laboratorio Campus", "est")
-				 .addAdiacenza("Aula N10", "Aula N11", "est")
-				 .addAdiacenza("Aula N10", "Laboratorio Campus", "ovest")
-				 .addAdiacenza("Laboratorio Campus", "Ripostiglio", "sud")
+				 .addAttrezzo("chiave", 1)
+				 
+				 /* collegamento Atrio-Biblioteca */
+				 .addAdiacenza("Atrio", "Biblioteca", Direzione.nord)
+				 .addAdiacenza( "Biblioteca","Atrio", Direzione.sud)
+				 /* collegamento Atrio-N10 */
+				 .addAdiacenza("Atrio", "Aula N10", Direzione.sud)
+				 .addAdiacenza( "Aula N10","Atrio", Direzione.nord)
+				 /* collegamento Atrio-N11 */
+				 .addAdiacenza("Atrio", "Aula N11", Direzione.est)
+				 .addAdiacenza( "Aula N11", "Atrio", Direzione.ovest)
+				 /* collegamento Atrio-Campus */
+				 .addAdiacenza("Atrio", "Laboratorio Campus", Direzione.ovest)
+				 .addAdiacenza( "Laboratorio Campus","Atrio",Direzione.est)
+				 /* collegamento N11-Campus */
+				 .addAdiacenza("Aula N11", "Laboratorio Campus", Direzione.est)
+				 .addAdiacenza( "Laboratorio Campus","Aula N11", Direzione.ovest)
+				 /* collegamento Campus-Ripostiglio */
+				 .addAdiacenza("Laboratorio Campus", "Ripostiglio", Direzione.sud)
+				 .addAdiacenza( "Ripostiglio","Laboratorio Campus", Direzione.nord)
+
 				 .getLabirinto();
 	    DiaDia gioco = new DiaDia(io,labirinto);
 

@@ -2,38 +2,23 @@ package it.uniroma3.diadia.comandi;
 
 import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
-import it.uniroma3.diadia.IOConsole.IOConsole;
 
-public class ComandoGuarda implements Comando {
+public class ComandoGuarda extends AbstractComando {
 //TODO ricordati di inserire dei comandi per mostrare in output 
 // le strutture ordinate dalle varie collezioni di attrezzi
-	private IO InOut = new IOConsole();
+	static final private String NOME = "ComandoGuarda";
 	
 	@Override
-	public void esegui(Partita partita) {
-        StringBuilder guarda = new StringBuilder();
-        guarda.append("ti trovi nella stanza:\n "+partita.getStanzaCorrente().getDescrizione()+"\n");
-        guarda.append("attualmente sei in gioco, con "+partita.getCfu()+" cfu rimanenti.\n");
-        guarda.append("il tuo inventario è composto da :\n"+partita.getGiocatore().mostraInventario());
-        InOut.mostraMessaggio(guarda.toString());
-	}
-
-	@Override
-	public void setParametro(String parametro) {
-		// TODO Auto-generated method stub
-
+	public void esegui(Partita partita, IO inOut) {
+		super.setIo(inOut);
+		super.getIo().mostraMessaggio("ti trovi nella stanza:\n"+partita.getStanzaCorrente().getDescrizione());
+		super.getIo().mostraMessaggio("\nattualmente sei in gioco, con "+partita.getCfu()+" cfu rimanenti.");
+		super.getIo().mostraMessaggio("\nil tuo inventario è composto da:"+partita.getGiocatore().mostraInventario());
 	}
 
 	@Override
 	public String getNome() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getParametro() {
-		// TODO Auto-generated method stub
-		return null;
+		return NOME;
 	}
 
 }

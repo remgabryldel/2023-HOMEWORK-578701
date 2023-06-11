@@ -182,7 +182,7 @@ public class Borsa {
 			//			s.append("\nContenuto borsa: " + this.getPeso() + " kg / " + this.getPesoMax() + " kg\n");
 			//			s.append(this.getContenutoOrdinatoPerNome().toString());
 			//			s.append(this.getContenutoOrdinatoPerPeso().toString());
-			s.append("\nContenuto borsa raggruppato per peso: \n");
+			s.append("\nContenuto borsa raggruppato per peso:\n");
 			//	        s.append(this.getContenutoRaggruppatoPerPeso().toString());
 			s.append(this.getSortedSetOrdinatoPerPeso().toString());
 			return s.toString();

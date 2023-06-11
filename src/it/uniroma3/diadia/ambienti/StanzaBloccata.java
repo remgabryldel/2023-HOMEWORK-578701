@@ -13,21 +13,15 @@ package it.uniroma3.diadia.ambienti;
  */
 public class StanzaBloccata extends Stanza {
 
-	final static private String NOME_ATTREZZO = "chiave";
-	final static private String NOME_DIREZIONE = "nord";
-	private String direzione;
+	private Direzione direzione;
 	private String nomeAttrezzo;
 	
-	public StanzaBloccata(String nome,String direzione, String nomeAttrezzo) {
+	public StanzaBloccata(String nome,Direzione direzione, String nomeAttrezzo) {
 		super(nome);
 		this.direzione = direzione;
 		this.nomeAttrezzo = nomeAttrezzo;
 	}
-	
-	public StanzaBloccata(String nome) {
-		this(nome, NOME_DIREZIONE, NOME_ATTREZZO);
-	}
-	
+
 	/**
 	 * Metodo che verifica se nella stanza è presente un attrezzo,
 	 * dall'esito ritorna la stanza adiacente o la stanza stessa.
@@ -35,8 +29,8 @@ public class StanzaBloccata extends Stanza {
 	 * @return una stanza
 	 */
 	@Override
-	public Stanza getStanzaAdiacente(String direzione) {
-		if(this.hasAttrezzo(nomeAttrezzo)||!this.direzione.equals(direzione))
+	public Stanza getStanzaAdiacente(Direzione direzione) {
+		if(this.hasAttrezzo(nomeAttrezzo)||!this.direzione.name().equals(direzione.name()))
 			return super.getStanzaAdiacente(direzione);
 		return this;
 	}
@@ -56,6 +50,47 @@ public class StanzaBloccata extends Stanza {
 				return S.toString();
 			}
 			return S.toString();
+	}
+	
+	/**
+	 * Ottiene il nome dell'attrezzo che blocca la stanza
+	 * @return nome attrezzo che blocca la stanza
+	 */
+	public String getNomeAttrezzo() {
+		return this.nomeAttrezzo;
+	}
+	
+	/**
+	 * Imposta il nome dell'attrezzo che blocca la stanza
+	 * @param nome attrezzo che blocca la stanza
+	 */
+	public void setNomeAttrezzo(String nomeAttrezzo) {
+	    this.nomeAttrezzo = nomeAttrezzo;
+	}
+	/**
+	 * Ottiene il nome della direzione bloccata nella stanza
+	 * @return nome direzione bloccata
+	 */
+	public String getNomeDirezione() {
+		return this.direzione.name();
+	}
+	/**
+	 * Ottiene il nome della direzione bloccata nella stanza
+	 * @return nome direzione bloccata
+	 */
+	public void setNomeDirezione(String direzione) {
+	     this.direzione = Direzione.valueOf(direzione);
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		boolean eq = false;
+		StanzaBloccata that = (StanzaBloccata)o;
+		eq = this.nomeAttrezzo.equals(that.getNomeAttrezzo());
+		eq = eq && this.direzione.name().equals(that.getNomeDirezione());
+		if(eq)
+			eq = super.equals(that);
+		return eq;
 	}
 	
 }

@@ -34,6 +34,14 @@ public class Attrezzo implements Comparable<Attrezzo>{
 	public String getNome() {
 		return this.nome;
 	}
+	
+	/**
+	 * Imposta il nome identificatore dell'attrezzo
+	 * @param il nuovo nome identificatore dell'attrezzo
+	 */
+	public void setNome(String nome) {
+		this.nome=nome;
+	}
 
 	/**
 	 * Restituisce il peso dell'attrezzo
@@ -41,6 +49,13 @@ public class Attrezzo implements Comparable<Attrezzo>{
 	 */
 	public int getPeso() {
 		return this.peso;
+	}
+	/**
+	 * Imposta il peso dell'attrezzo
+	 * @param il nuovo peso dell'attrezzo
+	 */
+	public void setPeso(int peso) {
+		this.peso=peso;
 	}
 
 	/**
@@ -59,7 +74,7 @@ public class Attrezzo implements Comparable<Attrezzo>{
 	@Override
 	public boolean equals(Object o) {
 		Attrezzo that = (Attrezzo)o;
-		return this.getNome().equals(that.getNome()) && this.getPeso()== that.getPeso();
+		return this.getNome().equals(that.getNome()) && this.getPeso() == that.getPeso();
 	}
 	
 	@Override
