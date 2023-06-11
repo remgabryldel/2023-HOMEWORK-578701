@@ -16,20 +16,20 @@ private Stanza[] X= new Stanza[6];
 		    X[3] = new Stanza("test_no_agg");
 		    
 		    X[1] = new Stanza("test_con_SA");
-		    X[1].impostaStanzaAdiacente("dir1",new Stanza("stanza_1"));
+		    X[1].impostaStanzaAdiacente(Direzione.nord,new Stanza("stanza_1"));
 		    X[4] = new Stanza("test_con_SA");
-		    X[4].impostaStanzaAdiacente("dir1",new Stanza("stanza_1"));
+		    X[4].impostaStanzaAdiacente(Direzione.nord,new Stanza("stanza_1"));
 		    
 		    X[2] = new Stanza("test_SA_piena");
-		    X[2].impostaStanzaAdiacente("dir1",new Stanza("stanza_1"));
-		    X[2].impostaStanzaAdiacente("dir2",new Stanza("stanza_2"));
-		    X[2].impostaStanzaAdiacente("dir3",new Stanza("stanza_3"));
-		    X[2].impostaStanzaAdiacente("dir4",new Stanza("stanza_4"));
+		    X[2].impostaStanzaAdiacente(Direzione.nord,new Stanza("stanza_1"));
+		    X[2].impostaStanzaAdiacente(Direzione.sud,new Stanza("stanza_2"));
+		    X[2].impostaStanzaAdiacente(Direzione.est,new Stanza("stanza_3"));
+		    X[2].impostaStanzaAdiacente(Direzione.ovest,new Stanza("stanza_4"));
 		    X[5] = new Stanza("test_SA_piena");
-		    X[5].impostaStanzaAdiacente("dir1",new Stanza("stanza_1"));
-		    X[5].impostaStanzaAdiacente("dir2",new Stanza("stanza_2"));
-		    X[5].impostaStanzaAdiacente("dir3",new Stanza("stanza_3"));
-		    X[5].impostaStanzaAdiacente("dir4",new Stanza("stanza_4"));
+		    X[5].impostaStanzaAdiacente(Direzione.nord,new Stanza("stanza_1"));
+		    X[5].impostaStanzaAdiacente(Direzione.sud,new Stanza("stanza_2"));
+		    X[5].impostaStanzaAdiacente(Direzione.est,new Stanza("stanza_3"));
+		    X[5].impostaStanzaAdiacente(Direzione.ovest,new Stanza("stanza_4"));
 		    for(int i=0;i<10;i++) {
 			      String s= String.valueOf(i);
 			      X[2].addAttrezzo(new Attrezzo(s,i/3));
@@ -54,32 +54,32 @@ private Stanza[] X= new Stanza[6];
 	
 	@Test
 	void testImpostaStanzaAdiacenteNomeNoNullStanzaNull() {
-       X[0].impostaStanzaAdiacente("dir1", null);
-	   assertTrue(X[0].getDirezioni().contains("dir1"));
-	   assertNull(X[0].getStanzaAdiacente("dir1"));
+       X[0].impostaStanzaAdiacente(Direzione.nord, null);
+	   assertTrue(X[0].getDirezioni().contains("nord"));
+	   assertNull(X[0].getStanzaAdiacente(Direzione.nord));
 	}
 	
 	@Test
 	void testImpostaStanzaAdiacenteNomeNoNullStanzaNoNull() {
-       X[0].impostaStanzaAdiacente("dir1", new Stanza("stanza_1"));
-       assertTrue(X[0].getDirezioni().contains("dir1"));
-	   assertEquals("stanza_1",X[0].getStanzaAdiacente("dir1").getNome());
+       X[0].impostaStanzaAdiacente(Direzione.nord, new Stanza("stanza_1"));
+       assertTrue(X[0].getDirezioni().contains("nord"));
+	   assertEquals("stanza_1",X[0].getStanzaAdiacente(Direzione.nord).getNome());
 	}
 	
-	@Test
+	/*@Test
 	void testImpostaStanzaAdiacenteNuovaInStanzaConStanzeAdiacenticompleto() {
-	   X[2].impostaStanzaAdiacente("dirx", new Stanza("stanza_ie"));
+	   X[2].impostaStanzaAdiacente(Direzione.est, new Stanza("stanza_ie"));
 	   for(int i=0; i<X[2].getNumeroStanzeAdiacenti(); i++) {
 		   assertEquals(X[5].getDirezioni().get(i),X[2].getDirezioni().get(i));
 		   assertEquals(X[5].getStanzaAdiacente(String.valueOf(i)).getNome(),X[2].getStanzaAdiacente(String.valueOf(i)).getNome());
 	   }
-	}	
+	}	*/
 	
 	@Test
 	void testImpostaStanzaAdiacenteGiaEsistenteInStanzaConStanzeAdiacenticompleto() {
-       X[2].impostaStanzaAdiacente("dir3", new Stanza("forse"));
-       assertTrue(X[2].getDirezioni().contains("dir3"));
-	   assertEquals("forse",X[2].getStanzaAdiacente("dir3").getNome());	   
+       X[2].impostaStanzaAdiacente(Direzione.est, new Stanza("forse"));
+       assertTrue(X[2].getDirezioni().contains("est"));
+	   assertEquals("forse",X[2].getStanzaAdiacente(Direzione.est).getNome());	   
 	}
 
 	@Test
@@ -89,12 +89,12 @@ private Stanza[] X= new Stanza[6];
 	
 	@Test
 	void testGetStanzaAdiacenteInputStanzaEmpty() {
-		assertEquals(X[1],X[1].getStanzaAdiacente(""));
+		assertEquals(X[1],X[1].getStanzaAdiacente(Direzione.est));
 	}
 	
 	@Test
 	void testGetStanzaAdiacenteInputStanzaEsistente() {
-		assertEquals("stanza_1",X[1].getStanzaAdiacente("dir1").getNome());
+		assertEquals("stanza_1",X[1].getStanzaAdiacente(Direzione.nord).getNome());
 	}
 
 	@Test
@@ -141,5 +141,48 @@ private Stanza[] X= new Stanza[6];
 		assertFalse(X[0].removeAttrezzo(null));
 		assertFalse(X[0].removeAttrezzo("abc"));
 		assertTrue(X[2].removeAttrezzo("8"));
+	}
+	
+	@Test
+	void testEqualsStanzeSoloNome() {
+		assertEquals(X[0],X[3]);
+		assertNotEquals(X[0],new Stanza("nun"));
+	}
+	
+	@Test
+	void testEqualsStanzeNomeAttrezzi() {
+		X[0].addAttrezzo(new Attrezzo("att",1));
+		X[3].addAttrezzo(new Attrezzo("att",1));
+		assertEquals(X[0],X[3]);
+		X[3].addAttrezzo(new Attrezzo("att2",1));
+		assertNotEquals(X[0],X[3]);
+		X[0].addAttrezzo(new Attrezzo("att2",2));
+		assertNotEquals(X[0],X[3]);
+	}
+	
+	@Test
+	void testEqualsStanzeNomeAdiacenti() {
+		assertEquals(X[1],X[4]);
+		X[4].impostaStanzaAdiacente(Direzione.est, null);
+		assertNotEquals(X[1],X[4]);
+		X[1].impostaStanzaAdiacente(Direzione.est, new Stanza("stanza_x"));
+		assertNotEquals(X[1],X[4]);
+	}
+	
+	@Test
+	void testEqualsStanzeNomeAttrezziAdiacenti() {
+		assertEquals(X[2],X[5]);
+		X[5].impostaStanzaAdiacente(Direzione.nord, null);
+		assertNotEquals(X[2],X[5]);
+		X[2].impostaStanzaAdiacente(Direzione.nord, new Stanza("stanza_x"));
+		assertNotEquals(X[2],X[5]);
+		X[5].impostaStanzaAdiacente(Direzione.nord, new Stanza("stanza_x"));
+		assertEquals(X[2],X[5]);
+		X[5].removeAttrezzo("1");
+		assertNotEquals(X[2],X[5]);
+		X[2].removeAttrezzo("1");
+		assertEquals(X[2],X[5]);
+        X[5].getAttrezzo("4").setPeso(10);
+		assertNotEquals(X[2],X[5]);
 	}
 }

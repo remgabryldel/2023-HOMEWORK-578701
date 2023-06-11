@@ -6,6 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.Partita;
+import it.uniroma3.diadia.IOConsole.IOConsole;
+import it.uniroma3.diadia.ambienti.Labirinto;
+import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 class ComandoPosaTest {
@@ -14,20 +17,38 @@ class ComandoPosaTest {
   
   @BeforeEach
   public void setup() {
-	  partita[0] = new Partita();
-	  partita[1] = new Partita();
+	  Labirinto monolocale_vuoto = new LabirintoBuilder()
+				 .addStanzaIniziale("Atrio")
+				 .addStanzaVincente("Biblioteca")
+				 .addAdiacenza("Atrio", "Biblioteca", "nord")
+				 .getLabirinto();
+	  Labirinto monolocale_pieno = new LabirintoBuilder()
+				 .addStanzaIniziale("Atrio")
+				 .addAttrezzo("o", 5)
+				 .addAttrezzo("os", 5)
+				 .addAttrezzo("oss", 5)
+				 .addAttrezzo("osso", 5)
+				 .addAttrezzo("p", 5)
+				 .addAttrezzo("pa", 5)
+				 .addAttrezzo("pal", 5)
+				 .addAttrezzo("pala", 5)
+				 .addAttrezzo("k", 5)
+				 .addAttrezzo("ka", 5)
+				 .addStanzaVincente("Biblioteca")
+				 .addAdiacenza("Atrio", "Biblioteca", "nord")
+				 .getLabirinto();
+	  partita[0] = new Partita(monolocale_vuoto);
+	  partita[1] = new Partita(monolocale_vuoto);
 	  partita[1].getGiocatore().addAttrezzo(new Attrezzo("boh",1));
-	  partita[2] = new Partita();
+	  partita[2] = new Partita(monolocale_pieno);
 	  partita[2].getGiocatore().addAttrezzo(new Attrezzo("boh",1));
-	  for(int i=0;i<9;i++) {
-		  partita[2].getStanzaCorrente().addAttrezzo(new Attrezzo(String.valueOf(i),1));
-	  }
+
   }
   
 	@Test
 	void testEseguiBorsaEmpty() {
 		comando = new ComandoPosa();
-		comando.esegui(partita[0]);//esiste un assert che verifica l'output?
+		comando.esegui(partita[0],new IOConsole());//esiste un assert che verifica l'output?
 		assertEquals(0,partita[0].getGiocatore().getNumeroAttrezzi());
 
 	}
@@ -35,7 +56,7 @@ class ComandoPosaTest {
 	@Test
 	void testEseguiBorsaNoEmptyParametersNull() {
 		comando = new ComandoPosa();
-		comando.esegui(partita[1]);//esiste un assert che verifica l'output?
+		comando.esegui(partita[1],new IOConsole());//esiste un assert che verifica l'output?
 		assertEquals(1,partita[1].getGiocatore().getNumeroAttrezzi());
 
 	}
@@ -44,7 +65,7 @@ class ComandoPosaTest {
 	void testEseguiBorsaNoEmptyParametersInvalid() {
 		comando = new ComandoPosa();
 		comando.setParametro("invalid");
-		comando.esegui(partita[1]);//esiste un assert che verifica l'output?
+		comando.esegui(partita[1],new IOConsole());//esiste un assert che verifica l'output?
 		assertEquals(1,partita[1].getGiocatore().getNumeroAttrezzi());
 	}
 	
@@ -52,7 +73,7 @@ class ComandoPosaTest {
 	void testEseguiBorsaNoEmptyParametersValid() {
 		comando = new ComandoPosa();
 		comando.setParametro("boh");
-		comando.esegui(partita[1]);//esiste un assert che verifica l'output?
+		comando.esegui(partita[1],new IOConsole());//esiste un assert che verifica l'output?
 		assertEquals(0,partita[1].getGiocatore().getNumeroAttrezzi());
 	}
 	
@@ -60,7 +81,7 @@ class ComandoPosaTest {
 	void testEseguiBorsaNoEmptyParametersValidButRoomIsFull() {
 		comando = new ComandoPosa();
 		comando.setParametro("boh");
-		comando.esegui(partita[2]);//esiste un assert che verifica l'output?
+		comando.esegui(partita[2],new IOConsole());//esiste un assert che verifica l'output?
 		assertEquals(1,partita[2].getGiocatore().getNumeroAttrezzi());
 		assertEquals(10,partita[2].getStanzaCorrente().getNumeroAttrezzi());
 	}
